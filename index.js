@@ -94,7 +94,7 @@ function drawCoins(coins) {
 
 async function getCoinsApi() {
     try {
-        const response = await fetch(API_URL)
+        const response = await fetch(API_URL, {method: "GET"})
         if (!response.ok) {
             throw new Error('Failed to fetch data');
         }
