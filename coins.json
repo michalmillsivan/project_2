@@ -1,0 +1,427 @@
+[
+    {
+        "id": "01coin",
+        "symbol": "zoc",
+        "name": "01coin"
+    },
+    {
+        "id": "0chain",
+        "symbol": "zcn",
+        "name": "Zus"
+    },
+    {
+        "id": "0-knowledge-network",
+        "symbol": "0kn",
+        "name": "0 Knowledge Network"
+    },
+    {
+        "id": "0-mee",
+        "symbol": "ome",
+        "name": "O-MEE"
+    },
+    {
+        "id": "0vix-protocol",
+        "symbol": "vix",
+        "name": "0VIX Protocol"
+    },
+    {
+        "id": "0vm",
+        "symbol": "zerovm",
+        "name": "0VM"
+    },
+    {
+        "id": "0x",
+        "symbol": "zrx",
+        "name": "0x Protocol"
+    },
+    {
+        "id": "0x0-ai-ai-smart-contract",
+        "symbol": "0x0",
+        "name": "0x0.ai: AI Smart Contract"
+    },
+    {
+        "id": "0x404",
+        "symbol": "xfour",
+        "name": "0x404"
+    },
+    {
+        "id": "0x678-landwolf-1933",
+        "symbol": "wolf",
+        "name": "Landwolf"
+    },
+    {
+        "id": "0xadventure",
+        "symbol": "zad",
+        "name": "0xAdventure"
+    },
+    {
+        "id": "0xaiswap",
+        "symbol": "0xaiswap",
+        "name": "0xAISwap"
+    },
+    {
+        "id": "0xanon",
+        "symbol": "0xanon",
+        "name": "0xAnon"
+    },
+    {
+        "id": "0xbet",
+        "symbol": "0xbet",
+        "name": "0xBET"
+    },
+    {
+        "id": "0xblack",
+        "symbol": "0xb",
+        "name": "0xBlack"
+    },
+    {
+        "id": "0xcoco",
+        "symbol": "coco",
+        "name": "0xCoco"
+    },
+    {
+        "id": "0xdao",
+        "symbol": "oxd",
+        "name": "0xDAO"
+    },
+    {
+        "id": "0xdefcafe",
+        "symbol": "cafe",
+        "name": "0xDEFCAFE"
+    },
+    {
+        "id": "0xengage",
+        "symbol": "engage",
+        "name": "0xEngage"
+    },
+    {
+        "id": "0xfair",
+        "symbol": "fair",
+        "name": "0xFair"
+    },
+    {
+        "id": "0xgambit",
+        "symbol": "0xg",
+        "name": "0xgambit"
+    },
+    {
+        "id": "0xgasless-2",
+        "symbol": "0xgas",
+        "name": "0xGasless"
+    },
+    {
+        "id": "0xgen",
+        "symbol": "xgn",
+        "name": "0xGen"
+    },
+    {
+        "id": "0xgpu-ai",
+        "symbol": "0xg",
+        "name": "0xGPU.ai"
+    },
+    {
+        "id": "0x-leverage",
+        "symbol": "oxl",
+        "name": "0x Leverage"
+    },
+    {
+        "id": "0xliquidity",
+        "symbol": "0xlp",
+        "name": "0xLiquidity"
+    },
+    {
+        "id": "0xlsd",
+        "symbol": "0xlsd",
+        "name": "0xLSD"
+    },
+    {
+        "id": "0xmonero",
+        "symbol": "0xmr",
+        "name": "0xMonero"
+    },
+    {
+        "id": "0xnumber",
+        "symbol": "oxn",
+        "name": "0xNumber"
+    },
+    {
+        "id": "0xos-ai",
+        "symbol": "0xos",
+        "name": "0xOS AI"
+    },
+    {
+        "id": "0xscans",
+        "symbol": "scan",
+        "name": "0xScans"
+    },
+    {
+        "id": "0xsnipeproai",
+        "symbol": "0xspai",
+        "name": "0xSnipeProAi"
+    },
+    {
+        "id": "0xvpn-org",
+        "symbol": "vpn",
+        "name": "0xVPN.org"
+    },
+    {
+        "id": "1000bonk",
+        "symbol": "1000bonk",
+        "name": "1000BONK"
+    },
+    {
+        "id": "1000btt",
+        "symbol": "1000btt",
+        "name": "1000BTT"
+    },
+    {
+        "id": "1000rats",
+        "symbol": "1000rats",
+        "name": "1000RATS"
+    },
+    {
+        "id": "1000sats-ordinals",
+        "symbol": "1000sats",
+        "name": "1000SATS (Ordinals)"
+    },
+    {
+        "id": "1000shib",
+        "symbol": "1000shib",
+        "name": "1000SHIB"
+    },
+    {
+        "id": "1000troll",
+        "symbol": "1000troll",
+        "name": "1000TROLL"
+    },
+    {
+        "id": "16dao",
+        "symbol": "16dao",
+        "name": "16DAO"
+    },
+    {
+        "id": "1art",
+        "symbol": "1art",
+        "name": "OneArt"
+    },
+    {
+        "id": "1ex",
+        "symbol": "1ex",
+        "name": "1ex"
+    },
+    {
+        "id": "1hive-water",
+        "symbol": "water",
+        "name": "1Hive Water"
+    },
+    {
+        "id": "1inch",
+        "symbol": "1inch",
+        "name": "1inch"
+    },
+    {
+        "id": "1inch-yvault",
+        "symbol": "yv1inch",
+        "name": "1INCH yVault"
+    },
+    {
+        "id": "1intro",
+        "symbol": "intro",
+        "name": "1intro"
+    },
+    {
+        "id": "1long",
+        "symbol": "1long",
+        "name": "1LONG"
+    },
+    {
+        "id": "1mdc",
+        "symbol": "1mdc",
+        "name": "1MDC"
+    },
+    {
+        "id": "1million-nfts",
+        "symbol": "1mil",
+        "name": "1MillionNFTs"
+    },
+    {
+        "id": "1minbet",
+        "symbol": "1mb",
+        "name": "1minBET"
+    },
+    {
+        "id": "1move token",
+        "symbol": "1mt",
+        "name": "1Move Token"
+    },
+    {
+        "id": "1reward-token",
+        "symbol": "1rt",
+        "name": "1Reward Token"
+    },
+    {
+        "id": "1rus-btc25",
+        "symbol": "@btc25",
+        "name": "1RUS BTC25"
+    },
+    {
+        "id": "1rus-dao",
+        "symbol": "1rusd",
+        "name": "1RUS DAO"
+    },
+    {
+        "id": "1safu",
+        "symbol": "safu",
+        "name": "1SAFU"
+    },
+    {
+        "id": "1sol",
+        "symbol": "1sol",
+        "name": "1Sol"
+    },
+    {
+        "id": "-2",
+        "symbol": "₿",
+        "name": "₿"
+    },
+    {
+        "id": "2024",
+        "symbol": "2024",
+        "name": "2024"
+    },
+    {
+        "id": "2024pump",
+        "symbol": "pump",
+        "name": "2024PUMP"
+    },
+    {
+        "id": "2080",
+        "symbol": "2080",
+        "name": "2080"
+    },
+    {
+        "id": "20ex",
+        "symbol": "20ex",
+        "name": "20EX"
+    },
+    {
+        "id": "20weth-80bal",
+        "symbol": "20weth-80bal",
+        "name": "20WETH-80BAL"
+    },
+    {
+        "id": "21million",
+        "symbol": "21m",
+        "name": "21Million"
+    },
+    {
+        "id": "21x",
+        "symbol": "21x",
+        "name": "21X"
+    },
+    {
+        "id": "28vck",
+        "symbol": "vck",
+        "name": "28VCK"
+    },
+    {
+        "id": "2dai-io",
+        "symbol": "2dai",
+        "name": "2DAI.io"
+    },
+    {
+        "id": "2fai",
+        "symbol": "2fai",
+        "name": "2FAI"
+    },
+    {
+        "id": "2g-carbon-coin",
+        "symbol": "2gcc",
+        "name": "2G Carbon Coin"
+    },
+    {
+        "id": "2moon",
+        "symbol": "moon",
+        "name": "2MOON"
+    },
+    {
+        "id": "2omb-finance",
+        "symbol": "2omb",
+        "name": "2omb"
+    },
+    {
+        "id": "2share",
+        "symbol": "2shares",
+        "name": "2SHARE"
+    },
+    {
+        "id": "-3",
+        "symbol": "meow",
+        "name": "Meow Meow Coin"
+    },
+    {
+        "id": "300fit",
+        "symbol": "fit",
+        "name": "300FIT"
+    },
+    {
+        "id": "3a-lending-protocol",
+        "symbol": "a3a",
+        "name": "3A"
+    },
+    {
+        "id": "3d3d",
+        "symbol": "3d3d",
+        "name": "3d3d"
+    },
+    {
+        "id": "3dpass",
+        "symbol": "p3d",
+        "name": "3DPass"
+    },
+    {
+        "id": "3-kingdoms-multiverse",
+        "symbol": "3km",
+        "name": "3 Kingdoms Multiverse"
+    },
+    {
+        "id": "3space-art",
+        "symbol": "pace",
+        "name": "3SPACE ART"
+    },
+    {
+        "id": "404aliens",
+        "symbol": "404a",
+        "name": "404Aliens"
+    },
+    {
+        "id": "404-bakery",
+        "symbol": "bake",
+        "name": "404 Bakery"
+    },
+    {
+        "id": "404blocks",
+        "symbol": "404blocks",
+        "name": "404Blocks"
+    },
+    {
+        "id": "404ver",
+        "symbol": "top",
+        "name": "404ver"
+    },
+    {
+        "id": "404wheels",
+        "symbol": "404wheels",
+        "name": "404WHEELS"
+    },
+    {
+        "id": "4096",
+        "symbol": "4096",
+        "name": "4096"
+    },
+    {
+        "id": "42-coin",
+        "symbol": "42",
+        "name": "42-coin"
+    }
+]
