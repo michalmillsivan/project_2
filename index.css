@@ -3,6 +3,24 @@
     background-size: cover;
     background-position: center;
     height: 100vh;
-    width:auto;
-    margin: 0; 
+    width: auto;
+    margin: 0;
+}
+
+.flex {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.additional-info {
+    margin: 5%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row-reverse;
+}
+
+.coin_image {
+    display: flex;
+    align-items: center;
 }
