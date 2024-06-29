@@ -1,6 +1,7 @@
 const mainContent = document.querySelector("#main-content")
 const API_URL = "https://api.coingecko.com/api/v3/coins/list"
 const API_URL_ID = "https://api.coingecko.com/api/v3/coins"
+const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
 
 function init() {
 
