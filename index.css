@@ -1,3 +1,90 @@
+.coolBG {
+    background: linear-gradient(10deg, rgba(248, 249, 250, 0.7) 29%, rgba(202, 245, 225, 0.7) 39%, rgba(104, 236, 231, 0.7) 60%, rgba(27, 71, 75, 0.7) 98%);
+}
+
+body,
+html {
+    height: 100%;
+}
+
+.parallax {
+    /* The image used */
+    background-image: url("crystal.png");
+    opacity: 0.3;
+
+    /* Full height */
+    height: 100%;
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked+.slider {
+    background-color: #2196F3;
+}
+
+input:focus+.slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked+.slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+
+
+
 .bg {
     background-image: url('bg.jpg');
     background-size: cover;
@@ -23,4 +110,18 @@
 .coin_image {
     display: flex;
     align-items: center;
+}
+
+.toggle{
+    margin: 5%;
+}
+
+/* .card_col{
+    display: flex;
+    flex-wrap: wrap;
+} */
+
+.coin_cont{
+    display: flex;
+    flex-wrap: wrap;
 }

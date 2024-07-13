@@ -1,93 +1,88 @@
-const mainContent = document.querySelector("#main-content")
-const API_URL = "https://api.coingecko.com/api/v3/coins/list"
-const API_URL_ID = "https://api.coingecko.com/api/v3/coins"
-const CACHE_DURATION = 2 * 60 * 1000
+const mainContent = document.querySelector("#mainContent"); //the main content div
+const API_URL = "https://api.coingecko.com/api/v3/coins/list";
+const API_URL_ID = "https://api.coingecko.com/api/v3/coins";
+const CACHE_DURATION = 2 * 60 * 1000;
+const SELECTED_COINS_KEY = 'selectedCoins';
 
-const selectedCoins = []
+//const selectedCoins = []
+let selectedCoins = JSON.parse(localStorage.getItem(SELECTED_COINS_KEY)) || [];
 
+
+//creating loader:
+const loader = document.createElement("div");
+loader.classList.add("spinner-border", "text-primary", "loader");
+loader.setAttribute("role", "status");
+loader.innerHTML = '<span class="sr-only">Loading...</span>';
+
+//init function:
 function init() {
-
-    document.querySelector("#about").addEventListener("click", () => {
-        drawAbout()
-    })
     document.querySelector("#home").addEventListener("click", () => {
-        drawHome()
-    })
-    document.querySelector("#reports").addEventListener("click", () => {
-        drawReports()
-    })
-
+        drawHome();
+    });
 }
 
-async function initCoins() {
-    // try {
-    //     const result = await getCoinsApi()
-    //     console.log(result)
-    //     drawCoins(result)
-    // } catch (error) {
-    //     console.error('Error fetching coins:', error)
-    // }
+async function drawHome() {
+    mainContent.innerHTML = ""; //clearing the main content div
+    mainContent.append(loader); //appending the loader
+    showLoader(loader);
     try {
-
-        drawCoins(coinArray)
+        drawCoins(coinArray); //drawing the coins, with a function.
+        // const result = await getCoinsApi()
+        // console.log(result)
+        // drawCoins(result)
+        hideLoader(loader); //hide loader
     } catch (error) {
-        console.error('Error fetching coins:', error)
+        console.error('Error fetching coins:', error); //making sure that i will know what the error is.
     }
 }
 
-function drawAbout() {
-    // DO A LOT OF THINGS!
-    mainContent.innerHTML = ""
-    const header = document.createElement("h1")
-    header.innerText = "About Me"
-    mainContent.append(header)
+//loader functions:
+function showLoader(loader) {
+    loader.style.display = "block";
 }
-function drawHome() {
-    // DO A LOT OF THINGS!
-    mainContent.innerHTML = ""
-    const header = document.createElement("h1")
-    header.innerText = "Home"
-    mainContent.append(header)
-}
-function drawReports() {
-    // DO A LOT OF THINGS!
-    mainContent.innerHTML = ""
-    const header = document.createElement("h1")
-    header.innerText = "Reports"
-    mainContent.append(header)
+function hideLoader(loader) {
+    loader.style.display = "none";
 }
 
+//the coins cards:
 function drawCoins(coins) {
-    const coinsContainer = document.querySelector("#coinsContainer")
-    coinsContainer.innerHTML = ""
-    if (!Array.isArray(coins)) return
+    const coinsContainer = document.createElement("div"); //creating a container
+    mainContent.classList.remove("parallax"); //removing the picture cause its ugly :)
+    mainContent.append(coinsContainer); //pushing the container
+    coinsContainer.innerHTML = ""; //making sure the container is clean
+    coinsContainer.classList.add("coin_cont"); //adding flex
+    if (!Array.isArray(coins)) return; //caution
+    const coinCards = coins.map(_createCoinCard); //building the cards
 
-    const coinCards = coins.map(_createCoinCard)
+    //cards structure:
     function _createCoinCard(coin) {
-        const cardCol = document.createElement("div")
-        cardCol.classList.add("col-md-4")
+        const cardCol = document.createElement("div");
+        cardCol.classList.add("col-md-4");
 
-        const cardContent = document.createElement("div")
-        cardContent.classList.add("card", "flex")
+        const cardContent = document.createElement("div");
+        cardContent.classList.add("card", "flex");
 
-        const cardBody = document.createElement("div")
-        cardBody.classList.add("card-body")
+        const cardBody = document.createElement("div");
+        cardBody.classList.add("card-body");
 
-        const cardTitle = document.createElement("h5")
-        cardTitle.classList.add("card-title")
-        cardTitle.innerText = coin?.symbol
+        const toggleDiv = document.createElement("div");
+        toggleDiv.classList.add("toggle")
 
-        const cardText = document.createElement("p")
-        cardText.classList.add("card-text")
-        cardText.innerText = coin?.name
+        const cardTitle = document.createElement("h5"); //header
+        cardTitle.classList.add("card-title");
+        cardTitle.innerText = coin?.symbol;
 
-        const cardBtn = document.createElement("button")
-        cardBtn.classList.add("btn", "btn-primary")
-        cardBtn.setAttribute("data-toggle", "collapse")
-        cardBtn.setAttribute("href", `#coin.id`)
-        cardBtn.setAttribute("role", "button")
-        cardBtn.setAttribute("aria-expanded", "false")
-        cardBtn.innerHTML = "More Info"
+        const cardText = document.createElement("p"); //content
+        cardText.classList.add("card-text");
+        cardText.innerText = coin?.name;
+
+        const cardBtn = document.createElement("button"); //more information button
+        cardBtn.classList.add("btn", "btn-primary");
+        cardBtn.setAttribute("data-toggle", "collapse");
+        cardBtn.setAttribute("href", `#coin_${coin.id}`);
+        cardBtn.setAttribute("role", "button");
+        cardBtn.setAttribute("aria-expanded", "false");
+        cardBtn.innerHTML = "More Info";
 
         const toggleBtn = document.createElement("button")
         toggleBtn.classList.add("btn", "btn-secondary")
@@ -95,118 +90,110 @@ function drawCoins(coins) {
         toggleBtn.setAttribute("data-coin-id", coin.id)
         toggleBtn.addEventListener("click", () => handleToggleCoin(coin, toggleBtn))
 
-        const additionalInfo = document.createElement("div")
-        additionalInfo.setAttribute("id", `coin_${coin.id}`)
-        additionalInfo.classList.add("additional-info", "collapse")
+        if (selectedCoins.find(selectedCoin => selectedCoin.id === coin.id)) {
+            toggleBtn.innerHTML = "Selected";
+        } else {
+            toggleBtn.innerHTML = "Select";
+        }
 
-        const coinImg = document.createElement("div")
-        coinImg.classList.add("coin_image")
-        const coinPrice = document.createElement("div")
+        //more information event:
+        const additionalInfo = document.createElement("div");
+        additionalInfo.setAttribute("id", `coin_${coin.id}`);
+        additionalInfo.classList.add("additional-info", "collapse");
 
-        const loader = document.createElement("div")
-        loader.classList.add("spinner-border", "text-primary", "loader")
-        loader.setAttribute("role", "status")
-        loader.innerHTML = '<span class="sr-only">Loading...</span>'
-        additionalInfo.append(loader)
+        const coinImg = document.createElement("div"); //more info - image
+        coinImg.classList.add("coin_image");
+
+        const coinPrice = document.createElement("div"); //more info - price
+        additionalInfo.append(loader);
 
         cardBtn.addEventListener("click", async () => {
-            showLoader(loader)
+            showLoader(loader);
             try {
-                const coinData = await getCachedCoinData(coin.id)
-                coinImg.innerHTML = ''
-                coinPrice.innerHTML = ''
-
-                if (coinData.image && coinData.image.small) {
-                    const coinImage = document.createElement("img")
-                    coinImage.src = coinData.image.small
-                    coinImg.appendChild(coinImage)
+                const coinData = await getCachedCoinData(coin.id); //see if there are cache coins in ls
+                coinImg.innerHTML = ''; //clean
+                coinPrice.innerHTML = ''; //clean
+                if (coinData.image && coinData.image.small) { //adding image to more info section
+                    const coinImage = document.createElement("img");
+                    coinImage.src = coinData.image.small;
+                    coinImg.appendChild(coinImage);
                 }
-
-                if (coinData.market_data && coinData.market_data.current_price) {
-                    const priceUSD = document.createElement("p")
-                    priceUSD.innerText = `Price (USD): ${coinData.market_data.current_price.usd}`
-                    coinPrice.appendChild(priceUSD)
-
-                    const priceEUR = document.createElement("p")
-                    priceEUR.innerText = `Price (EUR): ${coinData.market_data.current_price.eur}`
-                    coinPrice.appendChild(priceEUR)
-
-                    const priceILS = document.createElement("p")
-                    priceILS.innerText = `Price (ILS): ${coinData.market_data.current_price.ils}`
-                    coinPrice.appendChild(priceILS)
-
+                if (coinData.market_data && coinData.market_data.current_price) { //adding price to more info section
+                    const priceUSD = document.createElement("p");
+                    priceUSD.innerText = `Price (USD): ${coinData.market_data.current_price.usd}`;
+                    coinPrice.appendChild(priceUSD);
+                    const priceEUR = document.createElement("p");
+                    priceEUR.innerText = `Price (EUR): ${coinData.market_data.current_price.eur}`;
+                    coinPrice.appendChild(priceEUR);
+                    const priceILS = document.createElement("p");
+                    priceILS.innerText = `Price (ILS): ${coinData.market_data.current_price.ils}`;
+                    coinPrice.appendChild(priceILS);
                 }
-
-                const expanded = cardBtn.getAttribute("aria-expanded") === "true"
-                cardBtn.setAttribute("aria-expanded", String(!expanded))
-                additionalInfo.classList.toggle("show")
-
+                const expanded = cardBtn.getAttribute("aria-expanded") === "true"; //more info is open
+                cardBtn.setAttribute("aria-expanded", String(!expanded));
+                additionalInfo.classList.toggle("show");
             } catch (error) {
-                console.error("Error fetching coin data:", error)
+                console.error("Error fetching coin data:", error);
             } finally {
-                hideLoader(loader)
+                hideLoader(loader);
             }
-        })
+        });
 
-        cardBody.append(cardTitle, cardText, cardBtn, toggleBtn)
-        additionalInfo.append(coinImg, coinPrice)
-        cardContent.append(cardBody, additionalInfo)
-        cardCol.append(cardContent)
+        cardBody.append(cardTitle, cardText, cardBtn);
+        toggleDiv.append(toggleBtn);
+        additionalInfo.append(coinImg, coinPrice);
+        cardContent.append(cardBody, additionalInfo, toggleDiv);
+        cardCol.append(cardContent);
 
-        return cardCol
+        return cardCol;
     }
-    coinsContainer.append(...coinCards)
+    coinsContainer.append(...coinCards);
+}
 
+//import from ls:
+function getCachedCoinData(id) {
+    const cacheKey = `coin_${id}`; //creating a uniqe key
+    const cachedData = localStorage.getItem(cacheKey);
+    if (cachedData) {
+        const parsedData = JSON.parse(cachedData);
+        const now = new Date().getTime();
+        if (now - parsedData.timestamp < CACHE_DURATION) {
+            return Promise.resolve(parsedData.data);
+        }
+    }
+    return fetchCoinData(id);
+}
+
+//adding to ls:
+async function fetchCoinData(id) {
+    const coinData = await getCoinsApi(id); //fetching the coins
+    const cacheKey = `coin_${id}`; //giving each coin a key
+    const cacheValue = { //giving it a time stamp so i can make sure it is retrieved after 2 minutes
+        data: coinData,
+        timestamp: new Date().getTime()
+    };
+    localStorage.setItem(cacheKey, JSON.stringify(cacheValue)); //adding to ls
+    return coinData;
 }
 
 async function getCoinsApi(id) {
     try {
-        const response = await fetch(id ? API_URL_ID + "/" + id : API_URL, { method: "GET" })
+        const response = await fetch(id ? API_URL_ID + "/" + id : API_URL, { method: "GET" }); //if there is id bring specific coin, else bring all
         if (!response.ok) {
-            throw new Error('Failed to fetch data')
+            throw new Error('Failed to fetch data');
         }
-        const coins = await response.json()
-        return coins
+        const coins = await response.json(); //translating data to json
+        return coins;
     } catch (error) {
-        console.error('Error fetching API:', error)
-        throw error
+        console.error('Error fetching API:', error);
+        throw error;
     }
 }
 
-function getCachedCoinData(id) {
-    const cacheKey = `coin_${id}`
-    const cachedData = localStorage.getItem(cacheKey)
-    if (cachedData) {
-        const parsedData = JSON.parse(cachedData)
-        const now = new Date().getTime()
-        if (now - parsedData.timestamp < CACHE_DURATION) {
-            return Promise.resolve(parsedData.data)
-        }
-    }
-    return fetchCoinData(id)
-}
-
-async function fetchCoinData(id) {
-    const coinData = await getCoinsApi(id)
-    const cacheKey = `coin_${id}`
-    const cacheValue = {
-        data: coinData,
-        timestamp: new Date().getTime()
-    }
-    localStorage.setItem(cacheKey, JSON.stringify(cacheValue))
-    return coinData
-}
-
-function showLoader(loader) {
-    loader.style.display = "block"
-}
-
-function hideLoader(loader) {
-    loader.style.display = "none"
-}
-
+//selected coins:
 function handleToggleCoin(coin, toggleBtn) {
     const isSelected = selectedCoins.find(selectedCoin => selectedCoin.id === coin.id)
+
     if (isSelected) {
         selectedCoins.splice(selectedCoins.indexOf(isSelected), 1)
         toggleBtn.innerHTML = "Select"
@@ -218,6 +205,8 @@ function handleToggleCoin(coin, toggleBtn) {
             showReplacementModal(coin, toggleBtn)
         }
     }
+    console.log(selectedCoins)
+    localStorage.setItem(SELECTED_COINS_KEY, JSON.stringify(selectedCoins))
 }
 
 function showReplacementModal(newCoin, newToggleBtn) {
@@ -230,7 +219,7 @@ function showReplacementModal(newCoin, newToggleBtn) {
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Select a coin to replace</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeButton">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -266,9 +255,17 @@ function showReplacementModal(newCoin, newToggleBtn) {
 
             $(modal).on('hidden.bs.modal', function () {
                 document.body.removeChild(modal);
-            });            
+            });
         });
     });
+
+    modal.querySelector("#closeButton").addEventListener("click", () => {
+        $(modal).modal('hide');
+
+        $(modal).on('hidden.bs.modal', function () {
+            document.body.removeChild(modal);
+        });
+    })
 
     document.body.appendChild(modal);
     $(modal).modal('show');
@@ -285,7 +282,6 @@ const coinArray = [
     { "id": "counterparty", "symbol": "xcp", "name": "Counterparty" },
     { "id": "omni", "symbol": "omni", "name": "Omni" },
     { "id": "namecoin", "symbol": "nmc", "name": "Namecoin" }
-]
+];
 
 init()
-initCoins()
