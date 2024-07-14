@@ -19,6 +19,20 @@ function init() {
     document.querySelector("#home").addEventListener("click", () => {
         drawHome();
     });
+
+    const searchButton = document.querySelector("#searchButton")
+    searchButton.addEventListener("click", (e) => {
+        e.preventDefault()
+        const searchInput = document.querySelector("#searchInput").value.toLowerCase()
+        mainContent.innerHTML = ""
+        const filteredCoins = coinArray.filter(coin => coin.name.toLowerCase().includes(searchInput) || coin.symbol.toLowerCase().includes(searchInput));
+        console.log(filteredCoins)
+        drawCoins(filteredCoins);
+    })
+
+    document.querySelector("#about").addEventListener("click", () => {
+        drawAbout()
+    })
 }
 
 async function drawHome() {
@@ -34,6 +48,38 @@ async function drawHome() {
     } catch (error) {
         console.error('Error fetching coins:', error); //making sure that i will know what the error is.
     }
+}
+
+function drawAbout() {
+    mainContent.innerHTML = "";
+    mainContent.classList.remove("parallax");
+
+    const about_container = document.createElement("div")
+    about_container.classList.add("about")
+
+    const about_content = document.createElement("div")
+    about_content.classList.add("aboutContent")
+
+    const aHeader = document.createElement("h2")
+    aHeader.innerHTML = "ABOUT"
+
+    const aImage = document.createElement("img")
+    aImage.src = 'mypic.png'
+    aImage.classList.add("myPic")
+
+    const aAbout = document.createElement("p")
+    aAbout.innerHTML = `Hello everyone! My name is Michal, I am 27 years old, originally from Alfe-Menashe, and currently, I don't have a home. Just kidding! I am between apartments and will soon be moving to Givat-Shmuel (fingers crossed!).</br>
+
+I have been working in a kindergarten ever since I was released from the army. I really liked my job! Being with the kids, playing with them, loving them, and receiving love from them, feeling like I was contributing something to the world by seeing how they shine with my assistance.</br>
+
+But sadly, lately, I have been feeling unsatisfied with my work. The parents have become really aggressive, the staff has become more and more unqualified due to a shortage of workers, the working conditions are poor, and the payment is low. Additionally, as I talked to more people in education, I discovered that it doesn't get much better than where I am now.</br>
+
+So, for the sake of my future kids, I embarked on a new journey so I can afford a house, activities, and everything they will want. I have started a full-stack web design course at John Bryce Academy. I don't know where this journey will lead me, but I am excited to find out.</br>
+
+Here you can see one of my first projects, Cryptonite! Here, you can explore various coins, their currencies, select your favorite coins, and see their reports.`
+about_content.append(aHeader, aImage, aAbout)
+about_container.append(about_content)
+mainContent.append(about_container)
 }
 
 //loader functions:

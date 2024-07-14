@@ -112,7 +112,7 @@ input:checked+.slider:before {
     align-items: center;
 }
 
-.toggle{
+.toggle {
     margin: 5%;
 }
 
@@ -121,7 +121,25 @@ input:checked+.slider:before {
     flex-wrap: wrap;
 } */
 
-.coin_cont{
+.coin_cont {
     display: flex;
     flex-wrap: wrap;
+}
+
+.about {
+    background-image: url(https://images.ctfassets.net/o10es7wu5gm1/1u95dVKhNgTeTjMreQvQeS/a026e10325de339139f14230cd784378/Frame_316125839__1_.png);
+    background-size: contain;
+    background-repeat: repeat;
+    opacity: 0.6;
+}
+
+.myPic {
+    width: 15%;
+}
+
+.aboutContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 100%;
 }
