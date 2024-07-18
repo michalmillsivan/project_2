@@ -124,6 +124,7 @@ input:checked+.slider:before {
 .coin_cont {
     display: flex;
     flex-wrap: wrap;
+    
 }
 
 /* .about {
@@ -143,3 +144,15 @@ input:checked+.slider:before {
     align-items: center;
     
 }
+
+#mainContent {
+    display: flex;
+    flex-direction: column;
+    margin-top: 5%;
+    
+}
+
+/* .marginTop {
+    margin-top: 10%;
+} */
+

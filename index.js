@@ -3,8 +3,7 @@ const API_URL = "https://api.coingecko.com/api/v3/coins/list";
 const API_URL_ID = "https://api.coingecko.com/api/v3/coins";
 const CACHE_DURATION = 2 * 60 * 1000;
 const SELECTED_COINS_KEY = 'selectedCoins';
-
-//const selectedCoins = []
+const coinArray = [] //unslash
 let selectedCoins = JSON.parse(localStorage.getItem(SELECTED_COINS_KEY)) || [];
 
 
@@ -41,13 +40,30 @@ function init() {
 
 async function drawHome() {
     mainContent.innerHTML = ""; //clearing the main content div
+    mainContent.classList.remove("parallax");
     mainContent.append(loader); //appending the loader
     showLoader(loader);
     try {
+        const selectedCoinsContainer = document.createElement("div"); //creating a selected container
+        
+        const favoriteCoinHeader = document.createElement("h1")
+        favoriteCoinHeader.innerText = "Hello here are you favorite coins:"
+        selectedCoinsContainer.append(favoriteCoinHeader)
+        mainContent.append(selectedCoinsContainer)
+
+        drawSelectedCoins(selectedCoins)
+
+        const coinHeaderDiv = document.createElement("div");
+        const coinHeader = document.createElement("h1")
+        coinHeader.innerHTML = "All Coins:"
+        coinHeaderDiv.append(coinHeader)
+        mainContent.append(coinHeaderDiv)
         //drawCoins(coinArray); //drawing the coins, with a function.
-        const result = await getCoinsApi()
-        console.log(result)
-        drawCoins(result)
+        const result = await getCoinsApi() //unslash
+        console.log("api result: " , result)
+        coinArray.push(...result)//unslash
+        console.log("coin array: " , coinArray)
+        drawCoins(result)//unslash
         hideLoader(loader); //hide loader
     } catch (error) {
         console.error('Error fetching coins:', error); //making sure that i will know what the error is.
@@ -166,9 +182,10 @@ function hideLoader(loader) {
 //the coins cards:
 function drawCoins(coins) {
     const coinsContainer = document.createElement("div"); //creating a container
-    mainContent.classList.remove("parallax"); //removing the picture cause its ugly :)
-    mainContent.append(coinsContainer); //pushing the container
+
+    mainContent.append( coinsContainer); //pushing the containers
     coinsContainer.innerHTML = ""; //making sure the container is clean
+
     coinsContainer.classList.add("coin_cont"); //adding flex
     if (!Array.isArray(coins)) return; //caution
     const coinCards = coins.map(_createCoinCard); //building the cards
@@ -266,7 +283,101 @@ function drawCoins(coins) {
 
         return cardCol;
     }
-    coinsContainer.append(...coinCards);
+    coinsContainer.append( ...coinCards);
+}
+
+//draw selected coins:
+function drawSelectedCoins(coins) {
+    const coinsContainer = document.createElement("div"); //creating a container
+
+    mainContent.append( coinsContainer); //pushing the containers
+    coinsContainer.innerHTML = ""; //making sure the container is clean
+
+    coinsContainer.classList.add("coin_cont"); //adding flex
+    if (!Array.isArray(coins)) return; //caution
+    const coinCards = coins.map(_createCoinCard); //building the cards
+
+    //cards structure:
+    function _createCoinCard(coin) {
+        const cardCol = document.createElement("div");
+        cardCol.classList.add("col-md-4");
+
+        const cardContent = document.createElement("div");
+        cardContent.classList.add("card", "flex");
+
+        const cardBody = document.createElement("div");
+        cardBody.classList.add("card-body");
+
+        const toggleDiv = document.createElement("div");
+        toggleDiv.classList.add("toggle")
+
+        const cardTitle = document.createElement("h5"); //header
+        cardTitle.classList.add("card-title");
+        cardTitle.innerText = coin?.symbol;
+
+        const cardText = document.createElement("p"); //content
+        cardText.classList.add("card-text");
+        cardText.innerText = coin?.name;
+
+        const cardBtn = document.createElement("button"); //more information button
+        cardBtn.classList.add("btn", "btn-primary");
+        cardBtn.setAttribute("data-toggle", "collapse");
+        cardBtn.setAttribute("href", `#coin_${coin.id}`);
+        cardBtn.setAttribute("role", "button");
+        cardBtn.setAttribute("aria-expanded", "false");
+        cardBtn.innerHTML = "More Info";
+
+        //more information event:
+        const additionalInfo = document.createElement("div");
+        additionalInfo.setAttribute("id", `coin_${coin.id}`);
+        additionalInfo.classList.add("additional-info", "collapse");
+
+        const coinImg = document.createElement("div"); //more info - image
+        coinImg.classList.add("coin_image");
+
+        const coinPrice = document.createElement("div"); //more info - price
+        additionalInfo.append(loader);
+
+        cardBtn.addEventListener("click", async () => {
+            showLoader(loader);
+            try {
+                const coinData = await getCachedCoinData(coin.id); //see if there are cache coins in ls
+                coinImg.innerHTML = ''; //clean
+                coinPrice.innerHTML = ''; //clean
+                if (coinData.image && coinData.image.small) { //adding image to more info section
+                    const coinImage = document.createElement("img");
+                    coinImage.src = coinData.image.small;
+                    coinImg.appendChild(coinImage);
+                }
+                if (coinData.market_data && coinData.market_data.current_price) { //adding price to more info section
+                    const priceUSD = document.createElement("p");
+                    priceUSD.innerText = `Price (USD): ${coinData.market_data.current_price.usd}`;
+                    coinPrice.appendChild(priceUSD);
+                    const priceEUR = document.createElement("p");
+                    priceEUR.innerText = `Price (EUR): ${coinData.market_data.current_price.eur}`;
+                    coinPrice.appendChild(priceEUR);
+                    const priceILS = document.createElement("p");
+                    priceILS.innerText = `Price (ILS): ${coinData.market_data.current_price.ils}`;
+                    coinPrice.appendChild(priceILS);
+                }
+                const expanded = cardBtn.getAttribute("aria-expanded") === "true"; //more info is open
+                cardBtn.setAttribute("aria-expanded", String(!expanded));
+                additionalInfo.classList.toggle("show");
+            } catch (error) {
+                console.error("Error fetching coin data:", error);
+            } finally {
+                hideLoader(loader);
+            }
+        });
+
+        cardBody.append(cardTitle, cardText, cardBtn);
+        additionalInfo.append(coinImg, coinPrice);
+        cardContent.append(cardBody, additionalInfo);
+        cardCol.append(cardContent);
+
+        return cardCol;
+    }
+    coinsContainer.append( ...coinCards);
 }
 
 //import from ls:
@@ -404,5 +515,3 @@ function showReplacementModal(newCoin, newToggleBtn) {
 // ];
 
 init()
-
-//hello
