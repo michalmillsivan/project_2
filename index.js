@@ -33,6 +33,10 @@ function init() {
     document.querySelector("#about").addEventListener("click", () => {
         drawAbout()
     })
+
+    document.querySelector("#reports").addEventListener("click", () => {
+        drawReports()
+    })
 }
 
 async function drawHome() {
@@ -40,14 +44,84 @@ async function drawHome() {
     mainContent.append(loader); //appending the loader
     showLoader(loader);
     try {
-        drawCoins(coinArray); //drawing the coins, with a function.
-        // const result = await getCoinsApi()
-        // console.log(result)
-        // drawCoins(result)
+        //drawCoins(coinArray); //drawing the coins, with a function.
+        const result = await getCoinsApi()
+        console.log(result)
+        drawCoins(result)
         hideLoader(loader); //hide loader
     } catch (error) {
         console.error('Error fetching coins:', error); //making sure that i will know what the error is.
     }
+}
+
+function drawReports() {
+    mainContent.innerHTML = "";
+    mainContent.classList.remove("parallax");
+    const header = document.createElement("h1");
+    header.innerText = "Live Reports";
+    mainContent.append(header);
+
+    const reportDiv = document.createElement("div");
+    const canvas = document.createElement("canvas");
+    reportDiv.appendChild(canvas);
+    mainContent.appendChild(reportDiv);
+
+    const ctx = canvas.getContext('2d');
+    const data = {
+        labels: [],
+        datasets: selectedCoins.map(coin => ({
+            label: coin.name,
+            data: [],
+            fill: false,
+            borderColor: getRandomColor(),
+            tension: 0.1
+        }))
+    };
+
+    const config = {
+        type: 'line',
+        data: data,
+        options: {
+            scales: {
+                x: {
+                    type: 'time',
+                    time: {
+                        unit: 'second'
+                    }
+                },
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    };
+
+    const myChart = new Chart(ctx, config);
+
+    setInterval(async function () {
+        try {
+            const now = new Date();
+            data.labels.push(now);
+            for (let i = 0; i < selectedCoins.length; i++) {
+                const coinData = await getCachedCoinData(selectedCoins[i].id);
+                const priceEUR = coinData.market_data.current_price.eur;
+                data.datasets[i].data.push({ x: now, y: priceEUR });
+            }
+            myChart.update();
+        }
+        catch (error) {
+            console.error('Error fetching coin data or updating chart:', error);
+        }
+    }, 2000);
+}
+
+function getRandomColor() {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
 }
 
 function drawAbout() {
@@ -55,7 +129,6 @@ function drawAbout() {
     mainContent.classList.remove("parallax");
 
     const about_container = document.createElement("div")
-    about_container.classList.add("about")
 
     const about_content = document.createElement("div")
     about_content.classList.add("aboutContent")
@@ -77,9 +150,9 @@ But sadly, lately, I have been feeling unsatisfied with my work. The parents hav
 So, for the sake of my future kids, I embarked on a new journey so I can afford a house, activities, and everything they will want. I have started a full-stack web design course at John Bryce Academy. I don't know where this journey will lead me, but I am excited to find out.</br>
 
 Here you can see one of my first projects, Cryptonite! Here, you can explore various coins, their currencies, select your favorite coins, and see their reports.`
-about_content.append(aHeader, aImage, aAbout)
-about_container.append(about_content)
-mainContent.append(about_container)
+    about_content.append(aHeader, aImage, aAbout)
+    about_container.append(about_content)
+    mainContent.append(about_container)
 }
 
 //loader functions:
@@ -317,17 +390,17 @@ function showReplacementModal(newCoin, newToggleBtn) {
     $(modal).modal('show');
 }
 
-const coinArray = [
-    { "id": "dogecoin", "symbol": "doge", "name": "Dogecoin" },
-    { "id": "litecoin", "symbol": "ltc", "name": "Litecoin" },
-    { "id": "bitcoin", "symbol": "btc", "name": "Bitcoin" },
-    { "id": "peercoin", "symbol": "ppc", "name": "Peercoin" },
-    { "id": "auroracoin", "symbol": "aur", "name": "Auroracoin" },
-    { "id": "intergalactic", "symbol": "🐒", "name": "INTERGALACTIC" },
-    { "id": "nxt", "symbol": "nxt", "name": "NXT" },
-    { "id": "counterparty", "symbol": "xcp", "name": "Counterparty" },
-    { "id": "omni", "symbol": "omni", "name": "Omni" },
-    { "id": "namecoin", "symbol": "nmc", "name": "Namecoin" }
-];
+// const coinArray = [
+//     { "id": "dogecoin", "symbol": "doge", "name": "Dogecoin" },
+//     { "id": "litecoin", "symbol": "ltc", "name": "Litecoin" },
+//     { "id": "bitcoin", "symbol": "btc", "name": "Bitcoin" },
+//     { "id": "peercoin", "symbol": "ppc", "name": "Peercoin" },
+//     { "id": "auroracoin", "symbol": "aur", "name": "Auroracoin" },
+//     { "id": "intergalactic", "symbol": "🐒", "name": "INTERGALACTIC" },
+//     { "id": "nxt", "symbol": "nxt", "name": "NXT" },
+//     { "id": "counterparty", "symbol": "xcp", "name": "Counterparty" },
+//     { "id": "omni", "symbol": "omni", "name": "Omni" },
+//     { "id": "namecoin", "symbol": "nmc", "name": "Namecoin" }
+// ];
 
 init()
