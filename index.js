@@ -11,7 +11,7 @@ let selectedCoins = JSON.parse(localStorage.getItem(SELECTED_COINS_KEY)) || [];
 const loader = document.createElement("div");
 loader.classList.add("spinner-border", "text-primary", "loader");
 loader.setAttribute("role", "status");
-loader.innerHTML = '<span class="sr-only">Loading...</span>';
+loader.innerHTML = '<span class="sr-only"></span>';
 
 //init function:
 function init() {
@@ -45,9 +45,9 @@ async function drawHome() {
     showLoader(loader);
     try {
         const selectedCoinsContainer = document.createElement("div"); //creating a selected container
-        
+
         const favoriteCoinHeader = document.createElement("h1")
-        favoriteCoinHeader.innerText = "Hello here are you favorite coins:"
+        favoriteCoinHeader.innerText = "Favorite Coins:"
         selectedCoinsContainer.append(favoriteCoinHeader)
         mainContent.append(selectedCoinsContainer)
 
@@ -60,9 +60,9 @@ async function drawHome() {
         mainContent.append(coinHeaderDiv)
         //drawCoins(coinArray); //drawing the coins, with a function.
         const result = await getCoinsApi() //unslash
-        console.log("api result: " , result)
+        console.log("api result: ", result)
         coinArray.push(...result)//unslash
-        console.log("coin array: " , coinArray)
+        console.log("coin array: ", coinArray)
         drawCoins(result)//unslash
         hideLoader(loader); //hide loader
     } catch (error) {
@@ -120,8 +120,8 @@ function drawReports() {
             data.labels.push(now);
             for (let i = 0; i < selectedCoins.length; i++) {
                 const coinData = await getCachedCoinData(selectedCoins[i].id);
-                const priceEUR = coinData.market_data.current_price.eur;
-                data.datasets[i].data.push({ x: now, y: priceEUR });
+                const priceUSD = coinData.market_data.current_price.usd;
+                data.datasets[i].data.push({ x: now, y: priceUSD });
             }
             myChart.update();
         }
@@ -144,31 +144,28 @@ function drawAbout() {
     mainContent.innerHTML = "";
     mainContent.classList.remove("parallax");
 
-    const about_container = document.createElement("div")
+    const aboutContainer = document.createElement("div");
+    aboutContainer.classList.add("about-container");
 
-    const about_content = document.createElement("div")
-    about_content.classList.add("aboutContent")
+    const aboutHeader = document.createElement("div");
+    aboutHeader.classList.add("about-header");
+    aboutHeader.innerHTML = `
+        <h2 class="about-title">ABOUT</h2>
+        <img src="mypic.png" alt="My Picture" class="about-pic">
+    `;
 
-    const aHeader = document.createElement("h2")
-    aHeader.innerHTML = "ABOUT"
+    const aboutContent = document.createElement("div");
+    aboutContent.classList.add("about-content");
+    aboutContent.innerHTML = `
+        <p>Hello everyone! My name is Michal, I am 27 years old, originally from Alfe-Menashe, and currently, I don't have a home. Just kidding! I am between apartments and will soon be moving to Givat-Shmuel (fingers crossed!).</p>
+        <p>I have been working in a kindergarten ever since I was released from the army. I really liked my job! Being with the kids, playing with them, loving them, and receiving love from them, feeling like I was contributing something to the world by seeing how they shine with my assistance.</p>
+        <p>But sadly, lately, I have been feeling unsatisfied with my work. The parents have become really aggressive, the staff has become more and more unqualified due to a shortage of workers, the working conditions are poor, and the payment is low. Additionally, as I talked to more people in education, I discovered that it doesn't get much better than where I am now.</p>
+        <p>So, for the sake of my future kids, I embarked on a new journey so I can afford a house, activities, and everything they will want. I have started a full-stack web design course at John Bryce Academy. I don't know where this journey will lead me, but I am excited to find out.</p>
+        <p>Here you can see one of my first projects, Cryptonite! Here, you can explore various coins, their currencies, select your favorite coins, and see their reports.</p>
+    `;
 
-    const aImage = document.createElement("img")
-    aImage.src = 'mypic.png'
-    aImage.classList.add("myPic")
-
-    const aAbout = document.createElement("p")
-    aAbout.innerHTML = `Hello everyone! My name is Michal, I am 27 years old, originally from Alfe-Menashe, and currently, I don't have a home. Just kidding! I am between apartments and will soon be moving to Givat-Shmuel (fingers crossed!).</br>
-
-I have been working in a kindergarten ever since I was released from the army. I really liked my job! Being with the kids, playing with them, loving them, and receiving love from them, feeling like I was contributing something to the world by seeing how they shine with my assistance.</br>
-
-But sadly, lately, I have been feeling unsatisfied with my work. The parents have become really aggressive, the staff has become more and more unqualified due to a shortage of workers, the working conditions are poor, and the payment is low. Additionally, as I talked to more people in education, I discovered that it doesn't get much better than where I am now.</br>
-
-So, for the sake of my future kids, I embarked on a new journey so I can afford a house, activities, and everything they will want. I have started a full-stack web design course at John Bryce Academy. I don't know where this journey will lead me, but I am excited to find out.</br>
-
-Here you can see one of my first projects, Cryptonite! Here, you can explore various coins, their currencies, select your favorite coins, and see their reports.`
-    about_content.append(aHeader, aImage, aAbout)
-    about_container.append(about_content)
-    mainContent.append(about_container)
+    aboutContainer.append(aboutHeader, aboutContent);
+    mainContent.append(aboutContainer);
 }
 
 //loader functions:
@@ -183,7 +180,7 @@ function hideLoader(loader) {
 function drawCoins(coins) {
     const coinsContainer = document.createElement("div"); //creating a container
 
-    mainContent.append( coinsContainer); //pushing the containers
+    mainContent.append(coinsContainer); //pushing the containers
     coinsContainer.innerHTML = ""; //making sure the container is clean
 
     coinsContainer.classList.add("coin_cont"); //adding flex
@@ -221,15 +218,15 @@ function drawCoins(coins) {
         cardBtn.innerHTML = "More Info";
 
         const toggleBtn = document.createElement("button")
-        toggleBtn.classList.add("btn", "btn-secondary")
-        toggleBtn.innerHTML = "Select"
+        toggleBtn.classList.add("btn", "btn-light")
+        toggleBtn.innerHTML = "🩶"
         toggleBtn.setAttribute("data-coin-id", coin.id)
         toggleBtn.addEventListener("click", () => handleToggleCoin(coin, toggleBtn))
 
         if (selectedCoins.find(selectedCoin => selectedCoin.id === coin.id)) {
-            toggleBtn.innerHTML = "Selected";
+            toggleBtn.innerHTML = "❤️";
         } else {
-            toggleBtn.innerHTML = "Select";
+            toggleBtn.innerHTML = "🩶";
         }
 
         //more information event:
@@ -283,14 +280,14 @@ function drawCoins(coins) {
 
         return cardCol;
     }
-    coinsContainer.append( ...coinCards);
+    coinsContainer.append(...coinCards);
 }
 
 //draw selected coins:
 function drawSelectedCoins(coins) {
     const coinsContainer = document.createElement("div"); //creating a container
 
-    mainContent.append( coinsContainer); //pushing the containers
+    mainContent.append(coinsContainer); //pushing the containers
     coinsContainer.innerHTML = ""; //making sure the container is clean
 
     coinsContainer.classList.add("coin_cont"); //adding flex
@@ -308,9 +305,6 @@ function drawSelectedCoins(coins) {
         const cardBody = document.createElement("div");
         cardBody.classList.add("card-body");
 
-        const toggleDiv = document.createElement("div");
-        toggleDiv.classList.add("toggle")
-
         const cardTitle = document.createElement("h5"); //header
         cardTitle.classList.add("card-title");
         cardTitle.innerText = coin?.symbol;
@@ -319,65 +313,13 @@ function drawSelectedCoins(coins) {
         cardText.classList.add("card-text");
         cardText.innerText = coin?.name;
 
-        const cardBtn = document.createElement("button"); //more information button
-        cardBtn.classList.add("btn", "btn-primary");
-        cardBtn.setAttribute("data-toggle", "collapse");
-        cardBtn.setAttribute("href", `#coin_${coin.id}`);
-        cardBtn.setAttribute("role", "button");
-        cardBtn.setAttribute("aria-expanded", "false");
-        cardBtn.innerHTML = "More Info";
-
-        //more information event:
-        const additionalInfo = document.createElement("div");
-        additionalInfo.setAttribute("id", `coin_${coin.id}`);
-        additionalInfo.classList.add("additional-info", "collapse");
-
-        const coinImg = document.createElement("div"); //more info - image
-        coinImg.classList.add("coin_image");
-
-        const coinPrice = document.createElement("div"); //more info - price
-        additionalInfo.append(loader);
-
-        cardBtn.addEventListener("click", async () => {
-            showLoader(loader);
-            try {
-                const coinData = await getCachedCoinData(coin.id); //see if there are cache coins in ls
-                coinImg.innerHTML = ''; //clean
-                coinPrice.innerHTML = ''; //clean
-                if (coinData.image && coinData.image.small) { //adding image to more info section
-                    const coinImage = document.createElement("img");
-                    coinImage.src = coinData.image.small;
-                    coinImg.appendChild(coinImage);
-                }
-                if (coinData.market_data && coinData.market_data.current_price) { //adding price to more info section
-                    const priceUSD = document.createElement("p");
-                    priceUSD.innerText = `Price (USD): ${coinData.market_data.current_price.usd}`;
-                    coinPrice.appendChild(priceUSD);
-                    const priceEUR = document.createElement("p");
-                    priceEUR.innerText = `Price (EUR): ${coinData.market_data.current_price.eur}`;
-                    coinPrice.appendChild(priceEUR);
-                    const priceILS = document.createElement("p");
-                    priceILS.innerText = `Price (ILS): ${coinData.market_data.current_price.ils}`;
-                    coinPrice.appendChild(priceILS);
-                }
-                const expanded = cardBtn.getAttribute("aria-expanded") === "true"; //more info is open
-                cardBtn.setAttribute("aria-expanded", String(!expanded));
-                additionalInfo.classList.toggle("show");
-            } catch (error) {
-                console.error("Error fetching coin data:", error);
-            } finally {
-                hideLoader(loader);
-            }
-        });
-
-        cardBody.append(cardTitle, cardText, cardBtn);
-        additionalInfo.append(coinImg, coinPrice);
-        cardContent.append(cardBody, additionalInfo);
+        cardBody.append(cardTitle, cardText);
+        cardContent.append(cardBody);
         cardCol.append(cardContent);
 
         return cardCol;
     }
-    coinsContainer.append( ...coinCards);
+    coinsContainer.append(...coinCards);
 }
 
 //import from ls:
@@ -426,11 +368,11 @@ function handleToggleCoin(coin, toggleBtn) {
 
     if (isSelected) {
         selectedCoins.splice(selectedCoins.indexOf(isSelected), 1)
-        toggleBtn.innerHTML = "Select"
+        toggleBtn.innerHTML = "🩶"
     } else {
         if (selectedCoins.length < 5) {
             selectedCoins.push(coin)
-            toggleBtn.innerHTML = "Selected"
+            toggleBtn.innerHTML = "❤️"
         } else {
             showReplacementModal(coin, toggleBtn)
         }

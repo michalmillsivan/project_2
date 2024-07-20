@@ -73,7 +73,6 @@ input:checked+.slider:before {
     transform: translateX(26px);
 }
 
-/* Rounded sliders */
 .slider.round {
     border-radius: 34px;
 }
@@ -81,9 +80,6 @@ input:checked+.slider:before {
 .slider.round:before {
     border-radius: 50%;
 }
-
-
-
 
 .bg {
     background-image: url('bg.jpg');
@@ -116,23 +112,11 @@ input:checked+.slider:before {
     margin: 5%;
 }
 
-/* .card_col{
-    display: flex;
-    flex-wrap: wrap;
-} */
-
 .coin_cont {
     display: flex;
     flex-wrap: wrap;
     
 }
-
-/* .about {
-    background-image: url(https://images.ctfassets.net/o10es7wu5gm1/1u95dVKhNgTeTjMreQvQeS/a026e10325de339139f14230cd784378/Frame_316125839__1_.png);
-    background-size: contain;
-    background-repeat: repeat;
-    opacity: 0.6;
-} */
 
 .myPic {
     width: 15%;
@@ -152,7 +136,40 @@ input:checked+.slider:before {
     
 }
 
-/* .marginTop {
-    margin-top: 10%;
-} */
 
+
+
+
+.about-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px;
+    text-align: center;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.about-header {
+    margin-bottom: 20px;
+}
+
+.about-title {
+    font-size: 36px;
+    font-weight: 700;
+    color: #333;
+}
+
+.about-pic {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-top: 20px;
+}
+
+.about-content {
+    font-size: 18px;
+    line-height: 1.6;
+    color: #666;
+    text-align: left;
+}
